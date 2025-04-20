@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import dbConnect from "@/lib/mongoose";
 import Transaction from "@/models/Transaction";
 
-export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   await dbConnect();
   const { id } = await params;
   const data = await request.json();
@@ -13,7 +13,7 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
   return NextResponse.json(updated);
 }
 
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   await dbConnect();
   const { id } = await params;
   const deleted = await Transaction.findByIdAndDelete(id);
