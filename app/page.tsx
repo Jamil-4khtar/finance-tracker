@@ -1,19 +1,27 @@
-import Link from 'next/link';
-import React from 'react';
+import Link from 'next/link'
 
-function HomePage() {
+export default function HomePage() {
   return (
-    <main className="min-h-screen flex flex-col items-center justify-center p-4">
-      <h1 className="text-4xl font-bold mb-4">Personal Finance Visualizer</h1>
-      <p className="text-gray-700 mb-8 text-lg text-center max-w-xl">
-        Track your expenses, visualize your spending, and manage your finances with ease.
-      </p>
-      <div className="flex gap-4">
-        <Link href="/dashboard" className="bg-primary text-white px-6 py-3 rounded hover:bg-primary/80 font-semibold transition">Go to Dashboard</Link>
-        <Link href="/transactions" className="bg-secondary text-secondary-foreground px-6 py-3 rounded hover:bg-secondary/80 font-semibold transition">View Transactions</Link>
+    <div className="container mx-auto px-4 py-8">
+      <div className="max-w-4xl mx-auto">
+        <h1 className="text-4xl font-bold mb-6">Welcome to Finance Tracker</h1>
+        <div className="grid gap-6 md:grid-cols-2">
+          <Link 
+            href="/dashboard"
+            className="p-6 bg-white dark:bg-zinc-900 rounded-lg shadow-sm hover:shadow-md transition-shadow"
+          >
+            <h2 className="text-xl font-semibold mb-2">View Dashboard</h2>
+            <p className="text-gray-600 dark:text-gray-400">Check your financial overview and recent activity</p>
+          </Link>
+          <Link 
+            href="/transactions"
+            className="p-6 bg-white dark:bg-zinc-900 rounded-lg shadow-sm hover:shadow-md transition-shadow"
+          >
+            <h2 className="text-xl font-semibold mb-2">Manage Transactions</h2>
+            <p className="text-gray-600 dark:text-gray-400">Add and review your financial transactions</p>
+          </Link>
+        </div>
       </div>
-    </main>
-  );
+    </div>
+  )
 }
-
-export default HomePage;
