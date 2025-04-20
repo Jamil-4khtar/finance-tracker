@@ -11,23 +11,35 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className="h-full">
-      <body className={`${inter.className} min-h-full bg-gray-50 dark:bg-zinc-950 text-gray-900 dark:text-gray-100`}>
+      <body
+        className={`
+          ${inter.className} min-h-full
+          bg-gradient-to-br from-[var(--brand-gradient-from)] to-[var(--brand-gradient-to)]
+          dark:bg-gradient-to-br dark:from-[oklch(0.129_0.042_264.695)] dark:to-[oklch(0.208_0.042_265.755)]
+          text-gray-900 dark:text-gray-100
+        `}
+      >
         <div className="min-h-screen flex flex-col">
-          <nav className="bg-white dark:bg-zinc-900 border-b border-gray-200 dark:border-zinc-800">
+          <nav className="shadow-sm">
             <div className="container mx-auto px-4 py-4">
               <div className="flex justify-between items-center">
-                <Link href="/" className="text-xl font-semibold">Finance Tracker</Link>
-                <div className="space-x-4">
-                  <a href="/dashboard" className="hover:text-primary">Dashboard</a>
-                  <a href="/transactions" className="hover:text-primary">Transactions</a>
-                  <a href="/budgets" className="hover:text-primary">Budgets</a>
+                <Link
+                  href="/"
+                  className="text-xl font-extrabold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent tracking-tight"
+                >
+                  Finance Tracker
+                </Link>
+                <div className="space-x-6">
+                  <Link href="/dashboard" className="font-medium text-gray-800 dark:text-gray-200 hover:text-primary transition-colors">Dashboard</Link>
+                  <Link href="/transactions" className="font-medium text-gray-800 dark:text-gray-200 hover:text-primary transition-colors">Transactions</Link>
+                  <Link href="/budgets" className="font-medium text-gray-800 dark:text-gray-200 hover:text-primary transition-colors">Budgets</Link>
                 </div>
               </div>
             </div>
           </nav>
           <main className="flex-1">{children}</main>
-          <footer className="bg-white dark:bg-zinc-900 border-t border-gray-200 dark:border-zinc-800">
-            <div className="container mx-auto px-4 py-4 text-center text-sm text-gray-600 dark:text-gray-400">
+          <footer className="border-t border-gray-600/50 dark:border-zinc-800/50">
+            <div className="container mx-auto px-4 py-4 text-center text-sm text-gray-800 dark:text-gray-400">
               Finance Tracker © {new Date().getFullYear()}
             </div>
           </footer>
