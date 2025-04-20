@@ -25,25 +25,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className="...">
+    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
+      <body>
         <TransactionsProvider>
-          <nav className="bg-white dark:bg-zinc-900 shadow mb-8">
-            <div className="container mx-auto flex gap-6 py-4">
-              <Link href="/" className="font-medium hover:underline">
-                Home
-              </Link>
-              <Link href="/dashboard" className="font-medium hover:underline">
-                Dashboard
-              </Link>
-              <Link
-                href="/transactions"
-                className="font-medium hover:underline"
-              >
-                Transactions
-              </Link>
-            </div>
-          </nav>
+          <header className="w-full border-b mb-8">
+            <nav className="container mx-auto flex items-center gap-6 py-4">
+              <Link href="/" className="font-bold text-lg">Finance Visualizer</Link>
+              <Link href="/dashboard">Dashboard</Link>
+              <Link href="/transactions">Transactions</Link>
+              {/* Add Budgets link */}
+              <Link href="/budgets">Budgets</Link>
+            </nav>
+          </header>
           {children}
         </TransactionsProvider>
       </body>
