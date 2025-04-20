@@ -76,10 +76,10 @@
   --sidebar-accent-foreground: oklch(0.208 0.042 265.755);
   --sidebar-border: oklch(0.929 0.013 255.508);
   --sidebar-ring: oklch(0.704 0.04 256.788);
-  --brand-gradient-from: #a50f5a;
-  --brand-gradient-to: #5e16a7;
-  --brand-card-from: #51044093;
-  --brand-card-to: #3a076c65;
+  --brand-card-from: #810945;
+  --brand-card-to: #511092;
+  --brand-gradient-from: #4e0252;
+  --brand-gradient-to: #481108;
   --brand-dark-shade: #23212150;
   --brand-light-shade: #fffafa13;
 }
