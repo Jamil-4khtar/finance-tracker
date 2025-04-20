@@ -7,6 +7,7 @@ type Transaction = {
   amount: string;
   date: string;
   description: string;
+  category: string;
 };
 
 type TransactionListProps = {
@@ -25,47 +26,44 @@ export function TransactionList({
   }
 
   return (
-    <div className="space-y-4">
-      <h3 className="text-lg font-semibold">Transactions</h3>
-      <ul className="space-y-2">
-        {transactions.map((tx, idx) => (
-          <li
-            key={idx}
-            className="flex items-center justify-between p-3 bg-white rounded-lg shadow"
-          >
-            <div className="space-x-4">
-              <span>
-                <strong>Amount: </strong>
-                {tx.amount}
-              </span>
-              <span>
-                <strong>Date: </strong>
-                {tx.date}
-              </span>
-              <span>
-                <strong>Description: </strong>
-                {tx.description}
-              </span>
-            </div>
-            <div className="space-x-2">
-              <Button
-                variant={"secondary"}
-                size={"sm"}
-                onClick={() => onEdit(idx)}
-              >
-                Edit
-              </Button>
-              <Button
-                variant={"destructive"}
-                size={"sm"}
-                onClick={() => onDelete(idx)}
-              >
-                Delete
-              </Button>
-            </div>
-          </li>
-        ))}
-      </ul>
+    <div className="overflow-x-auto">
+      <table className="min-w-full border rounded">
+        <thead>
+          <tr className="bg-gray-100 dark:bg-zinc-800">
+            <th className="px-4 py-2 text-left">Amount</th>
+            <th className="px-4 py-2 text-left">Date</th>
+            <th className="px-4 py-2 text-left">Description</th>
+            <th className="px-4 py-2 text-left">Category</th>
+            <th className="px-4 py-2 text-left">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          {transactions.map((tx, idx) => (
+            <tr key={idx} className="border-t">
+              <td className="px-4 py-2">{tx.amount}</td>
+              <td className="px-4 py-2">{tx.date}</td>
+              <td className="px-4 py-2">{tx.description}</td>
+              <td className="px-4 py-2">{tx.category}</td>
+              <td className="px-4 py-2 space-x-2">
+                <Button
+                  variant="secondary"
+                  size="sm"
+                  onClick={() => onEdit(idx)}
+                >
+                  Edit
+                </Button>
+                <Button
+                  variant="destructive"
+                  size="sm"
+                  onClick={() => onDelete(idx)}
+                >
+                  Delete
+                </Button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </div>
   );
 }

@@ -1,37 +1,60 @@
-"use client";
+import { useState, useEffect } from "react";
 
-import { useState, useMemo } from 'react';
-
-type Transaction = {
+export interface Transaction {
+  _id?: string;
   amount: string;
   date: string;
   description: string;
-};
+  category: string;
+}
 
-export const useTransactions = () => {
+export function useTransactions() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [error, setError] = useState<string>("");
   const [editIndex, setEditIndex] = useState<number | null>(null);
-  const [error, setError] = useState("");
 
-  const monthlyData = useMemo(() => {
-    const map: { [month: string]: number } = {};
+  // Fetch all transactions from the backend
+  useEffect(() => {
+    fetch("/api/transactions")
+      .then((res) => res.json())
+      .then((data) => setTransactions(data))
+      .catch(() => setError("Failed to load transactions."));
+  }, []);
 
-    transactions.forEach((tx) => {
-      if (!tx.date) return;
-      const month = tx.date.slice(0, 7);
-      const amt = parseFloat(tx.amount);
-      if (!isNaN(amt)) {
-        map[month] = (map[month] || 0) + amt;
-      }
+  // Add a new transaction
+  const addTransaction = async (transaction: Transaction) => {
+    if (!transaction.amount || !transaction.date || !transaction.description || !transaction.category) {
+      setError("All fields are required.");
+      return false;
+    }
+    if (isNaN(Number(transaction.amount))) {
+      setError("Amount must be a number.");
+      return false;
+    }
+    setError("");
+    const res = await fetch("/api/transactions", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(transaction),
     });
+    if (res.ok) {
+      const newTx = await res.json();
+      setTransactions([newTx, ...transactions]);
+      return true;
+    } else {
+      setError("Failed to add transaction.");
+      return false;
+    }
+  };
 
-    return Object.entries(map)
-      .sort(([a], [b]) => a.localeCompare(b))
-      .map(([month, total]) => ({ month, total }));
-  }, [transactions]);
-
-  const addTransaction = (transaction: Transaction) => {
-    if (!transaction.amount || !transaction.date || !transaction.description) {
+  // Update an existing transaction
+  const updateTransaction = async (index: number, transaction: Transaction) => {
+    const tx = transactions[index];
+    if (!tx || !tx._id) {
+      setError("Transaction not found.");
+      return false;
+    }
+    if (!transaction.amount || !transaction.date || !transaction.description || !transaction.category) {
       setError("All fields are required.");
       return false;
     }
@@ -40,41 +63,49 @@ export const useTransactions = () => {
       return false;
     }
     setError("");
-    setTransactions([...transactions, transaction]);
-    return true;
-  };
-
-  const updateTransaction = (index: number, transaction: Transaction) => {
-    if (!transaction.amount || !transaction.date || !transaction.description) {
-      setError("All fields are required.");
+    const res = await fetch(`/api/transactions/${tx._id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(transaction),
+    });
+    if (res.ok) {
+      const updatedTx = await res.json();
+      const updatedList = [...transactions];
+      updatedList[index] = updatedTx;
+      setTransactions(updatedList);
+      return true;
+    } else {
+      setError("Failed to update transaction.");
       return false;
     }
-    if (isNaN(Number(transaction.amount))) {
-      setError("Amount must be a number.");
-      return false;
-    }
-    setError("");
-    const updated = [...transactions];
-    updated[index] = transaction;
-    setTransactions(updated);
-    return true;
   };
 
-  const deleteTransaction = (index: number) => {
-    setTransactions(transactions.filter((_, i) => i !== index));
-    if (editIndex === index) {
-      setEditIndex(null);
+  // Delete a transaction
+  const deleteTransaction = async (index: number) => {
+    const tx = transactions[index];
+    if (!tx || !tx._id) {
+      setError("Transaction not found.");
+      return;
+    }
+    const res = await fetch(`/api/transactions/${tx._id}`, {
+      method: "DELETE",
+    });
+    if (res.ok) {
+      setTransactions(transactions.filter((_, i) => i !== index));
+      setError("");
+    } else {
+      setError("Failed to delete transaction.");
     }
   };
 
   return {
     transactions,
-    monthlyData,
     error,
     editIndex,
     setEditIndex,
     addTransaction,
     updateTransaction,
     deleteTransaction,
+    // ...other exports...
   };
-};
+}
