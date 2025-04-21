@@ -62,9 +62,9 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
                   </svg>
                 </button>
                 <div className="hidden md:flex space-x-6">
-                  <Link href="/dashboard" onClick={() => setIsLoading(true)} className="font-medium border rounded p-2 bg-gradient-to-br from-text-primary to-secondary bg-clip-text text-transparent hover:from-secondary hover:to-primary transition-colors">Dashboard</Link>
-                  <Link href="/transactions" onClick={() => setIsLoading(true)} className="font-medium border rounded p-2 bg-gradient-to-br from-text-primary to-secondary bg-clip-text text-transparent hover:from-secondary hover:to-primary transition-colors">Transactions</Link>
-                  <Link href="/budgets" onClick={() => setIsLoading(true)} className="font-medium border rounded p-2 bg-gradient-to-br from-text-primary to-secondary bg-clip-text text-transparent hover:from-secondary hover:to-primary transition-colors">Budgets</Link>
+                  <Link href="/dashboard" onClick={() => pathname !== "/dashboard" ? setIsLoading(true) : undefined} className="font-medium border rounded p-2 bg-gradient-to-br from-text-primary to-secondary bg-clip-text text-transparent hover:from-secondary hover:to-primary transition-colors">Dashboard</Link>
+                  <Link href="/transactions" onClick={() => pathname !== "/transactions" ? setIsLoading(true) : undefined} className="font-medium border rounded p-2 bg-gradient-to-br from-text-primary to-secondary bg-clip-text text-transparent hover:from-secondary hover:to-primary transition-colors">Transactions</Link>
+                  <Link href="/budgets" onClick={() => pathname !== "/budgets" ? setIsLoading(true) : undefined} className="font-medium border rounded p-2 bg-gradient-to-br from-text-primary to-secondary bg-clip-text text-transparent hover:from-secondary hover:to-primary transition-colors">Budgets</Link>
                 </div>
               </div>
               <div className={`${isMenuOpen ? 'block' : 'hidden'} md:hidden mt-4 space-y-4`}>
@@ -73,7 +73,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
                   className="block font-medium border rounded p-2 bg-gradient-to-br from-text-primary to-secondary bg-clip-text text-transparent hover:from-secondary hover:to-primary transition-colors"
                   onClick={() => {
                     setIsMenuOpen(false)
-                    setIsLoading(true)
+                    if (pathname !== "/dashboard") setIsLoading(true)
                   }}
                 >
                   Dashboard
@@ -83,7 +83,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
                   className="block font-medium border rounded p-2 bg-gradient-to-br from-text-primary to-secondary bg-clip-text text-transparent hover:from-secondary hover:to-primary transition-colors"
                   onClick={() => {
                     setIsMenuOpen(false)
-                    setIsLoading(true)
+                    if (pathname !== "/transactions") setIsLoading(true)
                   }}
                 >
                   Transactions
@@ -93,7 +93,7 @@ function LayoutContent({ children }: { children: React.ReactNode }) {
                   className="block font-medium border rounded p-2 bg-gradient-to-br from-text-primary to-secondary bg-clip-text text-transparent hover:from-secondary hover:to-primary transition-colors"
                   onClick={() => {
                     setIsMenuOpen(false)
-                    setIsLoading(true)
+                    if (pathname !== "/budgets") setIsLoading(true)
                   }}
                 >
                   Budgets
