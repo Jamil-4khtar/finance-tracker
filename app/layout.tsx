@@ -37,9 +37,9 @@ export default function RootLayout({
               </div>
             </div>
           </nav>
-          <main className="flex-1 p-4">{children}</main>
+          <main className="flex-1 min-h-full">{children}</main>
           <footer className="border-t border-gray-600/50 dark:border-zinc-800/50">
-            <div className="container mx-auto px-4 py-4 text-center text-sm text-gray-800 dark:text-gray-400">
+            <div className="container mx-auto text-center p-2 text-sm text-gray-900 dark:text-gray-400">
               Finance Tracker © {new Date().getFullYear()}
             </div>
           </footer>

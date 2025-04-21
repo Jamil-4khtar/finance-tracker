@@ -5,6 +5,14 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { TransactionList } from "../TransactionList";
 import { useTransactions } from "@/hooks/useTransactions";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+
 
 
 const CATEGORY_OPTIONS = [
@@ -18,7 +26,6 @@ const CATEGORY_OPTIONS = [
   "Shopping",
   "Bills",
   "Entertainment",
-  "Health",
   "Other"
 ];
 
@@ -36,12 +43,12 @@ export default function TransactionForm() {
   const [amount, setAmount] = useState("");
   const [date, setDate] = useState("");
   const [description, setDescription] = useState("");
-  const [category, setCategory] = useState(CATEGORY_OPTIONS[0]);
+  const [category, setCategory] = useState("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     const transaction = { amount, date, description, category };
-
+    console.log(transaction)
     const success =
       editIndex !== null
         ? await updateTransaction(editIndex, transaction)
@@ -51,7 +58,7 @@ export default function TransactionForm() {
       setAmount("");
       setDate("");
       setDescription("");
-      setCategory(CATEGORY_OPTIONS[0]);
+      setCategory("");
       setEditIndex(null);
     }
   };
@@ -66,8 +73,8 @@ export default function TransactionForm() {
   };
 
   return (
-    <div className="space-y-8">
-      <form onSubmit={handleSubmit} className="space-y-4">
+    <div className="space-y-8 p-6 text-slate-200">
+      <form onSubmit={handleSubmit} className="space-y-4 bg-[var(--brand-dark-shade)] p-6 rounded-2xl shadow">
         <h2 className="text-xl font-semibold">Add Transaction</h2>
         {error && <div className="text-red-500">{error}</div>}
 
@@ -100,28 +107,35 @@ export default function TransactionForm() {
         {/* --- Category Dropdown --- */}
         <div className="space-y-2">
           <label className="block text-sm font-medium">Category</label>
-          <select
-            value={category}
-            title="Choose your Category"
-            onChange={e => setCategory(e.target.value)}
-            className="w-full border px-2 py-1 rounded"
-          >
-            {CATEGORY_OPTIONS.map((opt, idx) => (
-              <option key={idx} value={opt}>{opt}</option>
+          <Select onValueChange={setCategory} value={category}>
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Choose a category" />
+            </SelectTrigger>
+            <SelectContent  className="bg-transparent backdrop-blur-md shadow-none border border-white/20">
+              {CATEGORY_OPTIONS.map((opt, idx) => (
+                <SelectItem key={idx} value={opt}>{opt}</SelectItem>
             ))}
-          </select>
+            </SelectContent>
+          </Select>
+
+
         </div>
         <div className="space-x-2">
-          <Button type="submit">{editIndex !== null ? "Update" : "Add"}</Button>
+            <Button
+            type="submit"
+            className="bg-gradient-to-r from-text-slate-400 to-gray-200 bg-clip-text text-transparent  hover:from-primary hover:to-secondary border-2 border-y-gray-500 shadow"
+            >
+            {editIndex !== null ? "Update" : "Add"}
+            </Button>
           {editIndex !== null && (
             <Button
               type="button"
-              variant={"outline"}
+              variant={"secondary"}
               onClick={() => {
                 setAmount("");
                 setDate("");
                 setDescription("");
-                setCategory(CATEGORY_OPTIONS[0]);
+                setCategory("");
                 setEditIndex(null);
               }}
             >

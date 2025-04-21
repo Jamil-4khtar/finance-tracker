@@ -29,7 +29,7 @@ export function TransactionList({
     <div className="overflow-x-auto">
       <table className="min-w-full border rounded">
         <thead>
-          <tr className="bg-gray-100 dark:bg-zinc-800">
+          <tr className="bg-[var(--brand-dark-shade)] dark:bg-zinc-800">
             <th className="px-4 py-2 text-left">Amount</th>
             <th className="px-4 py-2 text-left">Date</th>
             <th className="px-4 py-2 text-left">Description</th>
