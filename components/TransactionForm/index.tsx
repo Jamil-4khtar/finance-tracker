@@ -5,6 +5,7 @@ import { Input } from "../ui/input";
 import { Button } from "../ui/button";
 import { TransactionList } from "../TransactionList";
 import { useTransactions } from "@/hooks/useTransactions";
+import { useLoading } from "@/context/LoadingContext";
 import {
   Select,
   SelectContent,
@@ -39,7 +40,7 @@ export default function TransactionForm() {
     updateTransaction,
     deleteTransaction,
   } = useTransactions();
-
+  const {setIsLoading} = useLoading();
   const [amount, setAmount] = useState("");
   const [date, setDate] = useState("");
   const [description, setDescription] = useState("");
@@ -47,6 +48,7 @@ export default function TransactionForm() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true)
     const transaction = { amount, date, description, category };
     console.log(transaction)
     const success =
@@ -61,6 +63,7 @@ export default function TransactionForm() {
       setCategory("");
       setEditIndex(null);
     }
+    setIsLoading(false)
   };
 
   const handleEdit = (index: number) => {
