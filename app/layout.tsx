@@ -1,11 +1,8 @@
 "use client"; 
-
 import { Inter } from "next/font/google"
 import "./globals.css"
 import Link from 'next/link'
-import { useState, useEffect } from 'react'
-import { usePathname, useSearchParams } from 'next/navigation'
-import { LoadingSpinner } from "@/components/LoadingSpinner"
+import { useState } from 'react'
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -15,30 +12,10 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  
-  const pathname = usePathname();
-  const searchParams = useSearchParams();
-
-  useEffect(() => {
-    const handleStartLoading = () => setIsLoading(true);
-    const handleStopLoading = () => setIsLoading(false);
-
-    // Add route change listeners
-    window.addEventListener('beforeunload', handleStartLoading);
-    
-    // Handle route changes
-    handleStopLoading();
-
-    return () => {
-      window.removeEventListener('beforeunload', handleStartLoading);
-    };
-  }, [pathname, searchParams]);
 
   return (
     <html lang="en" className="h-full">
       <body className={`${inter.className} min-h-full bg-gradient-to-br from-[var(--brand-gradient-from)] to-[var(--brand-gradient-to)] dark:bg-gradient-to-br dark:from-[oklch(0.129_0.042_264.695)] dark:to-[oklch(0.208_0.042_265.755)] text-gray-900 dark:text-gray-100`}>
-        {isLoading && <LoadingSpinner />}
         <div className="min-h-screen flex flex-col">
           <nav className="shadow-sm">
             <div className="container mx-auto px-4 py-4">
