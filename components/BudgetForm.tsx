@@ -2,6 +2,13 @@ import React, { useState } from "react";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
 import { Budget } from "@/hooks/useBudgets";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 
 interface BudgetFormProps {
   onSubmit: (budget: Budget) => Promise<boolean>;
@@ -40,7 +47,7 @@ export function BudgetForm({ onSubmit, initial, onCancel }: BudgetFormProps) {
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
       <div>
         <label className="block text-sm font-medium mb-1">Category</label>
-        <select
+        {/* <select
           className="w-full border rounded px-3 py-2"
           title="category"
           name="category"
@@ -51,7 +58,17 @@ export function BudgetForm({ onSubmit, initial, onCancel }: BudgetFormProps) {
           {CATEGORY_OPTIONS.map((cat) => (
             <option key={cat} value={cat}>{cat}</option>
           ))}
-        </select>
+        </select> */}
+        <Select value={category} onValueChange={setCategory}>
+          <SelectTrigger className="w-[180px]">
+            <SelectValue placeholder="Select Category" />
+          </SelectTrigger>
+          <SelectContent className="bg-transparent backdrop-blur-md shadow-none border border-white/20">
+            {CATEGORY_OPTIONS.map((cat) => (
+            <SelectItem key={cat} value={cat}>{cat}</SelectItem>
+          ))}
+          </SelectContent>
+        </Select>
       </div>
       <div>
         <label className="block text-sm font-medium mb-1">Amount</label>
@@ -71,9 +88,9 @@ export function BudgetForm({ onSubmit, initial, onCancel }: BudgetFormProps) {
         />
       </div>
       <div className="flex gap-2">
-        <Button type="submit">{initial ? "Update" : "Add"} Budget</Button>
+        <Button className="bg-gradient-to-r from-text-slate-400 to-gray-200 bg-clip-text text-transparent  hover:from-primary hover:to-secondary border-2 border-y-gray-500 shadow" type="submit">{initial ? "Update" : "Add"} Budget</Button>
         {onCancel && (
-          <Button type="button" variant="outline" onClick={onCancel}>
+          <Button type="button" variant="secondary" onClick={onCancel}>
             Cancel
           </Button>
         )}

@@ -47,20 +47,20 @@ export default function BudgetsPage() {
   // const handleCancelEdit = () => setEditingIndex(null);
 
   return (
-    <main className="container mx-auto py-8">
+    <main className="w-full min-h-screen p-6 bg-gradient-to-b from-[var(--brand-gradient-from)] to-[var(--brand-gradient-to)] text-slate-200">
       <h1 className="text-2xl font-bold mb-6">Budgets</h1>
 
       <div className="flex flex-wrap gap-4 mb-6">
-        <div className="bg-green-100 text-green-800 rounded px-4 py-2">
+        <div className="bg-[var(--brand-dark-shade)] text-green-800 rounded px-4 py-2">
           Under budget: {summary.under}
         </div>
-        <div className="bg-red-100 text-red-800 rounded px-4 py-2">
+        <div className="bg-[var(--brand-dark-shade)] text-red-800 rounded px-4 py-2">
           Over budget: {summary.over}
         </div>
-        <div className="bg-green-50 text-green-700 rounded px-4 py-2">
+        <div className="bg-[var(--brand-dark-shade)] text-green-700 rounded px-4 py-2">
           Total underspent: ${summary.underspent.toFixed(2)}
         </div>
-        <div className="bg-red-50 text-red-700 rounded px-4 py-2">
+        <div className="bg-[var(--brand-dark-shade)] text-red-700 rounded px-4 py-2">
           Total overspent: ${summary.overspent.toFixed(2)}
         </div>
       </div>
@@ -75,7 +75,7 @@ export default function BudgetsPage() {
           className="border rounded px-3 py-2"
         />
       </div>
-      <div className="bg-white dark:bg-zinc-900 shadow rounded-lg p-6 mb-8">
+      <div className="bg-[var(--brand-dark-shade)] dark:bg-zinc-900 shadow rounded-lg p-6 mb-8">
         <BudgetVsActualChart
           budgets={budgets}
           getActualSpent={getActualSpent}
@@ -83,10 +83,12 @@ export default function BudgetsPage() {
         />
       </div>
 
-      <div className="bg-white dark:bg-zinc-900 shadow rounded-lg p-6 mb-8">
+      <div className="bg-[var(--brand-dark-shade)] dark:bg-zinc-900 shadow rounded-lg p-6 mb-8">
         <BudgetForm onSubmit={addBudget} />
         {error && <div className="text-red-500 mt-2">{error}</div>}
       </div>
+
+
       <div className="space-y-4 mb-8">
         {budgets.map((budget) => {
           const actual = getActualSpent(budget.category, budget.month);
@@ -96,7 +98,7 @@ export default function BudgetsPage() {
           return (
             <div
               key={budget._id}
-              className="bg-gray-100 dark:bg-zinc-800 rounded p-4 flex flex-col gap-2"
+              className="bg-[var(--brand-dark-shade)] dark:bg-zinc-800 rounded p-4 flex flex-col gap-2"
             >
               <div className="flex justify-between items-center">
                 <span className="font-semibold">{budget.category} ({budget.month})</span>
@@ -114,7 +116,7 @@ export default function BudgetsPage() {
                   ${budget.amount.toFixed(2)}
                 </span>
               </div>
-              <div className="w-full bg-gray-300 dark:bg-zinc-700 rounded h-2">
+              <div className="w-full bg-[var(--brand-dark-shade)] dark:bg-zinc-700 rounded h-2">
                 <div
                   className={
                     "h-2 rounded " +
@@ -129,6 +131,7 @@ export default function BudgetsPage() {
           );
         })}
       </div>
+      
       <BudgetList
         budgets={budgets}
         onEdit={setEditingIndex}

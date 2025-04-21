@@ -26,10 +26,10 @@ export function TransactionList({
   }
 
   return (
-    <div className="overflow-x-auto">
+    <div className="overflow-x-auto bg-[var(--brand-dark-shade)] p-6 rounded-2xl shadow-2xs">
       <table className="min-w-full border rounded">
         <thead>
-          <tr className="bg-[var(--brand-dark-shade)] dark:bg-zinc-800">
+          <tr className=" dark:bg-zinc-800">
             <th className="px-4 py-2 text-left">Amount</th>
             <th className="px-4 py-2 text-left">Date</th>
             <th className="px-4 py-2 text-left">Description</th>
@@ -48,7 +48,14 @@ export function TransactionList({
                 <Button
                   variant="secondary"
                   size="sm"
-                  onClick={() => onEdit(idx)}
+                  onClick={() =>{ 
+                    onEdit(idx)
+                    scrollTo({
+                      top: 0,
+                      left: 0,
+                      behavior: "smooth"
+                    });
+                  }}
                 >
                   Edit
                 </Button>

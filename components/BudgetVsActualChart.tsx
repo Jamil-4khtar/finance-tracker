@@ -26,13 +26,13 @@ export function BudgetVsActualChart({ budgets, getActualSpent, selectedMonth }: 
 
   return (
     <ResponsiveContainer width="100%" height={300}>
-      <BarChart data={data}>
-        <XAxis dataKey="category" />
-        <YAxis />
-        <Tooltip />
-        <Legend />
-        <Bar dataKey="Budgeted" fill="#8884d8" />
-        <Bar dataKey="Actual" fill="#82ca9d" />
+      <BarChart data={data} margin={{ top: 20, right: 30, left: 20, bottom: 5 }}>
+      <XAxis dataKey="category" tick={{ fontSize: 12 }} />
+      <YAxis tick={{ fontSize: 12 }} />
+      <Tooltip contentStyle={{ fontSize: 12 }} cursor={{ fill: "rgba(0, 0, 0, 0.1)" }} />
+      <Legend wrapperStyle={{ fontSize: 12 }} />
+      <Bar dataKey="Budgeted" fill="#4F46E5" radius={[4, 4, 0, 0]} />
+      <Bar dataKey="Actual" fill="#10B981" radius={[4, 4, 0, 0]} />
       </BarChart>
     </ResponsiveContainer>
   );

@@ -74,7 +74,7 @@ export default function TransactionForm() {
 
   return (
     <div className="space-y-8 p-6 text-slate-200">
-      <form onSubmit={handleSubmit} className="space-y-4 bg-[var(--brand-dark-shade)] p-6 rounded-2xl shadow">
+      <form onSubmit={handleSubmit} className="space-y-4 bg-[var(--brand-dark-shade)] p-6 rounded-2xl shadow-2xl">
         <h2 className="text-xl font-semibold">Add Transaction</h2>
         {error && <div className="text-red-500">{error}</div>}
 

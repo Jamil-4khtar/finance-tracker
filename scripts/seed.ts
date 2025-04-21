@@ -1,6 +1,7 @@
 import mongoose from "mongoose";
 import dotenv from "dotenv";
 import Transaction from "../models/Transaction";
+import Budget from "../models/Budget";
 
 dotenv.config({ path: ".env.local" });
 
@@ -33,7 +34,7 @@ const seedTransactions = [
   },
   {
     amount: 75.0,
-    date: "2024-04-15",
+    date: "2025-04-15",
     description: "Internet Bill",
     category: "Utilities",
   },
@@ -69,7 +70,7 @@ const seedTransactions = [
   },
   {
     amount: 45.0,
-    date: "2024-04-28",
+    date: "2025-04-28",
     description: "Gym Membership",
     category: "Health",
   },
@@ -91,17 +92,123 @@ const seedTransactions = [
     description: "Electricity Bill",
     category: "Utilities",
   },
+  {
+    date: "2025-04-01",
+    amount: 85.50,
+    category: "Food",
+    description: "Grocery shopping",
+    type: "expense"
+  },
+  {
+    date: "2025-04-03",
+    amount: 45.00,
+    category: "Transport",
+    description: "Gas station fill-up",
+    type: "expense"
+  },
+  {
+    date: "2025-04-05",
+    amount: 120.00,
+    category: "Shopping",
+    description: "New clothes",
+    type: "expense"
+  },
+  {
+    date: "2025-04-07",
+    amount: 65.00,
+    category: "Food",
+    description: "Restaurant dinner",
+    type: "expense"
+  },
+  {
+    date: "2025-04-10",
+    amount: 30.00,
+    category: "Entertainment",
+    description: "Movie tickets",
+    type: "expense"
+  },
+  {
+    date: "2025-04-12",
+    amount: 75.00,
+    category: "Health",
+    description: "Pharmacy",
+    type: "expense"
+  },
+  {
+    date: "2025-04-15",
+    amount: 95.50,
+    category: "Food",
+    description: "Weekly groceries",
+    type: "expense"
+  },
+  {
+    date: "2025-04-18",
+    amount: 55.00,
+    category: "Transport",
+    description: "Uber rides",
+    type: "expense"
+  },
+  {
+    date: "2025-04-20",
+    amount: 25.00,
+    category: "Other",
+    description: "Office supplies",
+    type: "expense"
+  }
+];
+
+const budgets = [
+  {
+    category: "Food",
+    amount: 500,
+    month: "2025-04"
+  },
+  {
+    category: "Transport",
+    amount: 200,
+    month: "5-04"
+  },
+  {
+    category: "Shopping",
+    amount: 300,
+    month: "2025-04"
+  },
+  {
+    category: "Health",
+    amount: 150,
+    month: "2025-04"
+  },
+  {
+    category: "Entertainment",
+    amount: 200,
+    month: "2025-04"
+  },
+  {
+    category: "Other",
+    amount: 100,
+    month: "2025-04"
+  },
+  
 ];
 
 async function seed() {
   try {
     await mongoose.connect(MONGODB_URI);
+    
+    // Clear existing data
     await Transaction.deleteMany({});
+    await Budget.deleteMany({});
+    
+    // Insert new data
     await Transaction.insertMany(seedTransactions);
+    await Budget.insertMany(budgets);
+    
+    // console.log('Budget seed data inserted successfully');
     console.log("Database seeded!");
+    
     process.exit(0);
-  } catch (err) {
-    console.error(err);
+  } catch (error) {
+    console.error('Error seeding data:', error);
     process.exit(1);
   }
 }

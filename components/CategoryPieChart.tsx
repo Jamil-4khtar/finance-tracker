@@ -35,23 +35,23 @@ export function CategoryPieChart({ transactions }: CategoryPieChartProps) {
   }
 
   return (
-    <ResponsiveContainer width="100%" height={300}>
+    <ResponsiveContainer width="100%" height={400}>
       <PieChart>
-        <Pie
-          data={data}
-          dataKey="total"
-          nameKey="category"
-          cx="50%"
-          cy="50%"
-          outerRadius={100}
-          label
-        >
-          {data.map((entry, idx) => (
-            <Cell key={`cell-${idx}`} fill={COLORS[idx % COLORS.length]} />
-          ))}
-        </Pie>
-        <Tooltip />
-        <Legend />
+      <Pie
+        data={data}
+        dataKey="total"
+        nameKey="category"
+        cx="50%"
+        cy="50%"
+        outerRadius={100}
+        label={({ name, percent }) => `${name}: ${(percent * 100).toFixed(0)}%`}
+      >
+        {data.map((entry, idx) => (
+        <Cell key={`cell-${idx}`} fill={COLORS[idx % COLORS.length]} />
+        ))}
+      </Pie>
+      <Tooltip formatter={(value: number) => `$${value.toFixed(2)}`} />
+      <Legend layout="horizontal" align="center" verticalAlign="bottom" />
       </PieChart>
     </ResponsiveContainer>
   );

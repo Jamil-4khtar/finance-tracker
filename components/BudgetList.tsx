@@ -27,7 +27,7 @@ export function BudgetList({
       )}
       {budgets.map((budget, idx) =>
         editingIndex === idx ? (
-          <div key={budget._id || idx} className="bg-white dark:bg-zinc-900 shadow rounded-lg p-4">
+          <div key={budget._id || idx} className="bg-[var(--brand-dark-shade)] shadow rounded-lg p-4">
             <BudgetForm
               initial={budget}
               onSubmit={async (updated) => await onUpdate(idx, updated)}
@@ -37,7 +37,7 @@ export function BudgetList({
         ) : (
           <div
             key={budget._id || idx}
-            className="flex items-center justify-between bg-white dark:bg-zinc-900 shadow rounded-lg p-4"
+            className="flex items-center justify-between bg-[var(--brand-dark-shade)] shadow rounded-lg p-4"
           >
             <div>
               <div className="font-semibold">{budget.category}</div>
@@ -46,7 +46,7 @@ export function BudgetList({
               </div>
             </div>
             <div className="flex gap-2">
-              <Button size="sm" variant="outline" onClick={() => onEdit(idx, budget)}>
+              <Button size="sm" variant="secondary" onClick={() => onEdit(idx, budget)}>
                 Edit
               </Button>
               <Button size="sm" variant="destructive" onClick={() => onDelete(idx)}>
