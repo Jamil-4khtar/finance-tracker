@@ -1,15 +1,16 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useBudgets,  } from "@/hooks/useBudgets";
 import { BudgetForm } from "@/components/BudgetForm";
 import { BudgetList } from "@/components/BudgetList";
 import { useTransactions } from "@/hooks/useTransactions";
 import { BudgetVsActualChart } from "@/components/BudgetVsActualChart";
+import { LoadingDiv } from "@/components/LoadingSpinner";
 
 export default function BudgetsPage() {
   const { budgets, error, addBudget, updateBudget, deleteBudget } = useBudgets();
-  const { transactions } = useTransactions();
+  const { transactions, isList } = useTransactions();
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
 
   // Initialize selectedMonth to the current month
@@ -17,6 +18,13 @@ export default function BudgetsPage() {
     const now = new Date();
     return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`;
   });
+
+  const [flag, setFlag] = useState(true)
+  useEffect(() => {
+    if (!isList) {
+      setFlag(false)
+    }
+  }, [isList])
 
   function getActualSpent(category: string, month: string) {
     return transactions
@@ -76,11 +84,15 @@ export default function BudgetsPage() {
         />
       </div>
       <div className="bg-[var(--brand-dark-shade)] dark:bg-zinc-900 shadow rounded-lg p-6 mb-8">
-        <BudgetVsActualChart
-          budgets={budgets}
-          getActualSpent={getActualSpent}
-          selectedMonth={selectedMonth}
-        />
+        {
+          !flag ? <BudgetVsActualChart
+                    budgets={budgets}
+                    getActualSpent={getActualSpent}
+                    selectedMonth={selectedMonth}
+                  />
+                  : <LoadingDiv/>
+        }
+        
       </div>
 
       <div className="bg-[var(--brand-dark-shade)] dark:bg-zinc-900 shadow rounded-lg p-6 mb-8">

@@ -1,15 +1,23 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useTransactions } from "@/hooks/useTransactions";
 import { getMonthlyData, getCategoryTotals } from "@/hooks/transactionSelectors";
 import { MonthlyChart } from "@/components/MonthlyChart";
-import { CategoryPieChart } from "@/components/CategoryPieChart"; // Add this import
+import { CategoryPieChart } from "@/components/CategoryPieChart"; // 
+import { LoadingDiv } from "@/components/LoadingSpinner";
 
 export default function DashboardPage() {
-  const { transactions } = useTransactions();
+  const { transactions, isList } = useTransactions();
   const monthlyData = getMonthlyData(transactions);
   const categoryTotals = getCategoryTotals(transactions);
+
+  const [flag, setFlag] = useState(true)
+  useEffect(() => {
+    if (!isList) {
+      setFlag(false)
+    }
+  }, [isList])
 
   // Calculate total expenses
   const total = transactions.reduce((sum, tx) => sum + parseFloat(tx.amount), 0);
@@ -51,11 +59,16 @@ export default function DashboardPage() {
       {/* Add MonthlyChart and CategoryPieChart here */}
       <div className="bg-[var(--brand-dark-shade)] shadow rounded-lg p-6">
         <h3 className="text-lg font-semibold mb-4">Monthly Expenses</h3>
-        <MonthlyChart data={monthlyData || []} />
+        {
+          flag ? <LoadingDiv/> : <MonthlyChart data={monthlyData || []} />
+        }
+        
       </div>
       <div className="bg-[var(--brand-dark-shade)] shadow rounded-lg p-6">
         <h3 className="text-lg font-semibold mb-4">Spending by Category</h3>
-        <CategoryPieChart transactions={transactions} />
+        {
+          flag ? <LoadingDiv/> : <CategoryPieChart transactions={transactions} />
+        }
       </div>
     </main>
   );

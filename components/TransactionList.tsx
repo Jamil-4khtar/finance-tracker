@@ -1,7 +1,10 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "./ui/button";
+import { useLoading } from "@/context/LoadingContext";
+import { useTransactions } from "@/hooks/useTransactions";
+import { LoadingBar } from "./LoadingSpinner";
 
 type Transaction = {
   amount: string;
@@ -21,12 +24,21 @@ export function TransactionList({
   onEdit,
   onDelete,
 }: TransactionListProps) {
-  if (transactions.length === 0) {
-    return <div>No transactions yet.</div>;
-  }
+  const {setIsLoading} = useLoading()
+  const [flag, setFlag] = useState(true)
+  const { isList } = useTransactions();
+
+  useEffect(() => {
+    if (!isList) {
+      setFlag(false)
+    }
+  }, [isList])
+
 
   return (
     <div className="overflow-x-auto bg-[var(--brand-dark-shade)] p-6 rounded-2xl shadow-2xs">
+      {flag && <LoadingBar><span>Transactions are being fetched...</span></LoadingBar>}
+      {transactions.length > 0 ?
       <table className="min-w-full border rounded">
         <thead>
           <tr className=" dark:bg-zinc-800">
@@ -62,7 +74,11 @@ export function TransactionList({
                 <Button
                   variant="destructive"
                   size="sm"
-                  onClick={() => onDelete(idx)}
+                  onClick={() => {
+                    setIsLoading(true)
+                    onDelete(idx)
+                    setIsLoading(false)
+                  }}
                 >
                   Delete
                 </Button>
@@ -70,7 +86,7 @@ export function TransactionList({
             </tr>
           ))}
         </tbody>
-      </table>
+      </table> : !flag && <div>No Transactions yet.</div> }
     </div>
   );
 }

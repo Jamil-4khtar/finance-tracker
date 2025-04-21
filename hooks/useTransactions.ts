@@ -12,13 +12,21 @@ export function useTransactions() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [error, setError] = useState<string>("");
   const [editIndex, setEditIndex] = useState<number | null>(null);
+  const [isList, setIsList] = useState(false)
 
   // Fetch all transactions from the backend
   useEffect(() => {
+    setIsList(true)
     fetch("/api/transactions")
       .then((res) => res.json())
-      .then((data) => setTransactions(data))
-      .catch(() => setError("Failed to load transactions."));
+      .then((data) => {
+        setTransactions(data)
+        setIsList(false)
+      })
+      .catch(() => {
+        setError("Failed to load transactions.")
+        setIsList(false)
+      });
   }, []);
 
   // Add a new transaction
@@ -106,6 +114,7 @@ export function useTransactions() {
     addTransaction,
     updateTransaction,
     deleteTransaction,
+    isList
     // ...other exports...
   };
 }
